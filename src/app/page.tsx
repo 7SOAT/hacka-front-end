@@ -16,6 +16,7 @@ export default function Home() {
   const [token, setToken] = useState<string>('')
   useEffect(() => {
     getAccessToken().then((response) => {
+      console.log(response);
       setToken(response);
     });
   })
