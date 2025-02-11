@@ -2,9 +2,10 @@
 import React, { useState } from "react";
 import { Upload, Button, Progress, message, Card, Modal } from "antd";
 import { InboxOutlined, DeleteOutlined } from "@ant-design/icons";
-import { getPreSignedUrl } from "./logic";
+import { getAccessToken, getPreSignedUrl } from "./logic";
+import { useSearchParams } from "react-router-dom";
 
-export function FileUpload() {
+export function FileUpload({ token }: { token: string }) {
     const [fileList, setFileList] = useState<any[]>([]);
     const [confirmModal, setConfirmModal] = useState<{ visible: boolean, file?: any }>({ visible: false, file: null });
     const [statusModal, setStatusModal] = useState<{ visible: boolean; success?: boolean, file?: any }>({ visible: false, file: null });
@@ -17,7 +18,7 @@ export function FileUpload() {
         setConfirmModal({ visible: false, file: null });
         const file: any = confirmModal.file;
 
-        getPreSignedUrl(file)
+        getPreSignedUrl(file, token)
             .then(() => {
                 setStatusModal({ visible: true, success: true, file });
             })

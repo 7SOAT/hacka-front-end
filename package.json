@@ -13,7 +13,10 @@
     "axios": "^1.7.9",
     "next": "^15.1.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.1.5",
+    "uuid": "^11.0.5",
+    "uuid-validate": "^0.0.3"
   },
   "devDependencies": {
     "@types/node": "22.13.1",
