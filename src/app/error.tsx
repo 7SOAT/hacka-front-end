@@ -1,7 +1,6 @@
 "use client";
 
-import { Button } from 'antd';
-import './erros.css'
+import './error.css'
 import { useEffect } from 'react';
 
 export function ErrorPage() {
