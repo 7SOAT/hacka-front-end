@@ -1,31 +1,31 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Upload, Button, Modal } from "antd";
+import { Upload, Button, Modal, Flex } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
-import { getAccessToken, getPreSignedUrl } from "./logic";
+import { downloadZip, getFilesList, getPreSignedUrl } from "./logic";
+import VideoTable from "../videoTable/videosTable";
 
-export function FileUpload() {
-    const [fileList, setFileList] = useState<any[]>([]);
+export function FileUpload({ token }: { token: string }) {
+    const [fileList, setFileList] = useState<{ id: string; s3Key: string, status: string }[]>([]);
     const [confirmModal, setConfirmModal] = useState<{ visible: boolean, file?: any }>({ visible: false, file: null });
     const [statusModal, setStatusModal] = useState<{ visible: boolean; success?: boolean, file?: any }>({ visible: false, file: null });
-    const [token, setToken] = useState<string>()
-
-    useEffect(() => {
-        getAccessToken()
-            .then((response) => {
-                console.log('response', response)
-                setToken(response);
-            })
-            .catch((err) => {
-                console.log('error', err)
-                throw new Error('Failed to auth')
-            });
-    })
 
     const handleUpload = (file) => {
         setConfirmModal({ visible: true, file });
     };
+
+    const getVideosList = () => {
+        getFilesList(token)
+            .then((data) => {
+                const result = (!data || data === '') ? [] : data;
+                setFileList(result)
+            }).catch(() => console.log('deu erro'))
+    }
+
+    useEffect(() => {
+        getVideosList();
+    }, [])
 
     const confirmUpload = () => {
         setConfirmModal({ visible: false, file: null });
@@ -33,6 +33,7 @@ export function FileUpload() {
 
         getPreSignedUrl(file, token)
             .then(() => {
+                getVideosList()
                 setStatusModal({ visible: true, success: true, file });
             })
             .catch(() => setStatusModal({ visible: true, success: false, file }));
@@ -62,6 +63,8 @@ export function FileUpload() {
                 <br />
                 <p className="ant-upload-hint">.mp4</p>
             </Upload.Dragger>
+
+            {fileList && <VideoTable videos={fileList} token={token} handleRefresh={getVideosList} />}
 
             <Modal
                 title="Confirm Upload"
