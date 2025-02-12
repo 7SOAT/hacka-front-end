@@ -1,14 +1,17 @@
 'use client';
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import FileUpload from "./components/FileUpload/FileUpload";
 import styles from "./page.module.css";
 import validate from 'uuid-validate';
 import { getAccessToken } from "./components/FileUpload/logic";
 
 export default function Search() {
-  return <Home />;
+  return (
+    <Suspense>
+      <Home />
+    </Suspense>);
 }
 
 function Home() {
