@@ -4,9 +4,9 @@ import './error.css'
 import { useEffect } from 'react';
 
 export function ErrorPage() {
-    // useEffect(() => {
-    //     window.location.href = process.env.NEXT_PUBLIC_AWS_COGNITO_LOGIN_PAGE!;
-    // }, []);
+    useEffect(() => {
+        window.location.href = process.env.NEXT_PUBLIC_AWS_COGNITO_LOGIN_PAGE!;
+    }, []);
 
     return (
         <div>
